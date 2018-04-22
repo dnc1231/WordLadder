@@ -1,4 +1,3 @@
-//Right Click on project > Properties > Java Build Path > Libraries, then add junit 4
 package assignment3;
 
 import static org.junit.Assert.assertEquals;
@@ -13,12 +12,14 @@ import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 /**
  * This is the sample test cases for students
  * @author lisahua
  *
  */
-public class WordLadderTester {
+
+public class CoreTests {
 	private static Set<String> dict;
 	private static ByteArrayOutputStream outContent;
 
@@ -31,6 +32,8 @@ public class WordLadderTester {
 	}
 
 	private boolean verifyLadder(ArrayList<String> ladder) {
+		for(int i = 0; i  < ladder.size(); i ++)
+			ladder.set(i, ladder.get(i).toLowerCase());
 		String prev = null;
 		if (ladder == null)
 			return true;
@@ -51,7 +54,7 @@ public class WordLadderTester {
 
 		int diff = 0;
 		for (int i = 0; i < s1.length(); i++) {
-			if (s1.charAt(i) != s2.charAt(i) && diff++ > 1) {
+			if (s1.charAt(i) != s2.charAt(i) && ++diff > 1) {
 				return false;
 			}
 		}
@@ -60,7 +63,9 @@ public class WordLadderTester {
 	}
 
 	/** Has Word Ladder **/
-	@Test
+
+	//Test 1
+	@Test(timeout = 30000)
 	public void testBFS1() {
 		ArrayList<String> res = Main.getWordLadderBFS("hello", "cells");
 
@@ -73,7 +78,7 @@ public class WordLadderTester {
 		assertTrue(res.size() < 6);
 	}
 
-	@Test
+	@Test(timeout = 30000)
 	public void testDFS1() {
 		ArrayList<String> res = Main.getWordLadderDFS("hello", "cells");
 		if (res != null) {
@@ -85,21 +90,64 @@ public class WordLadderTester {
 
 	}
 
-	/** No Word Ladder **/
-	@Test
+	//Test 2
+	@Test(timeout = 30000)
 	public void testBFS2() {
-		ArrayList<String> res = Main.getWordLadderBFS("aldol", "drawl");
+		ArrayList<String> res = Main.getWordLadderBFS("delve", "iller");
+
 		if (res != null) {
 			HashSet<String> set = new HashSet<String>(res);
 			assertEquals(set.size(), res.size());
 		}
-		assertTrue(res == null || res.size() == 0 || res.size() == 2);
-
+		assertTrue(verifyLadder(res));
+		assertFalse(res == null || res.size() == 0 || res.size() == 2);
+		assertTrue(res.size() < 23);
 	}
 
-	@Test
+	@Test(timeout = 30000)
 	public void testDFS2() {
-		ArrayList<String> res = Main.getWordLadderDFS("aldol", "drawl");
+		ArrayList<String> res = Main.getWordLadderDFS("delve", "iller");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(verifyLadder(res));
+		assertFalse(res == null || res.size() == 0 || res.size() == 2);
+
+	}
+
+	//Test 3
+	@Test(timeout = 30000)
+	public void testBFS3() {
+		ArrayList<String> res = Main.getWordLadderBFS("agaze", "vroom");
+
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(verifyLadder(res));
+		assertFalse(res == null || res.size() == 0 || res.size() == 2);
+		assertTrue(res.size() < 13);
+	}
+
+	@Test(timeout = 30000)
+	public void testDFS3() {
+		ArrayList<String> res = Main.getWordLadderDFS("firms", "cells");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(verifyLadder(res));
+		assertFalse(res == null || res.size() == 0 || res.size() == 2);
+
+	}
+
+	/** No Word Ladder **/
+
+	//Test 4
+	@Test(timeout = 30000)
+	public void testBFS4() {
+		ArrayList<String> res = Main.getWordLadderBFS("drool", "zooid");
 		if (res != null) {
 			HashSet<String> set = new HashSet<String>(res);
 			assertEquals(set.size(), res.size());
@@ -107,7 +155,41 @@ public class WordLadderTester {
 		assertTrue(res == null || res.size() == 0 || res.size() == 2);
 	}
 
-	@Test
+	@Test(timeout = 30000)
+	public void testDFS4() {
+		ArrayList<String> res = Main.getWordLadderDFS("drool", "zooid");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(res == null || res.size() == 0 || res.size() == 2);
+	}
+
+	//Test 5
+	@Test(timeout = 30000)
+	public void testBFS5() {
+		ArrayList<String> res = Main.getWordLadderBFS("hello", "idiom");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(res == null || res.size() == 0 || res.size() == 2);
+
+	}
+
+	@Test(timeout = 30000)
+	public void testDFS5() {
+		ArrayList<String> res = Main.getWordLadderDFS("hello", "idiom");
+		if (res != null) {
+			HashSet<String> set = new HashSet<String>(res);
+			assertEquals(set.size(), res.size());
+		}
+		assertTrue(res == null || res.size() == 0 || res.size() == 2);
+	}
+
+	//Test Print Ladder
+
+	@Test(timeout = 30000)
 	public void testPrintLadder() {
 		ArrayList<String> res = Main.getWordLadderBFS("twixt", "hakus");
 		outContent.reset();
